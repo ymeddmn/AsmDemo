@@ -1,5 +1,6 @@
 package com.asm.mage.plugin.visit.methodvisitor;
 
+import org.objectweb.asm.Attribute;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
@@ -31,7 +32,7 @@ public class Human2MethodVisitor extends MethodVisitor {
                 && "Lcom/sitech/paas/asmproject/clsreplace/Human2$StudyListener;".equals(desc)) {
             mv.visitTypeInsn(NEW, "com/sitech/paas/asmproject/clsreplace/Test2");
             mv.visitInsn(DUP);
-            mv.visitVarInsn(ALOAD,1);
+            mv.visitVarInsn(ALOAD, 1);
             mv.visitMethodInsn(INVOKESPECIAL, "com/sitech/paas/asmproject/clsreplace/Test2", "<init>", "(Lcom/sitech/paas/asmproject/clsreplace/Human2$StudyListener;)V", false);
             mv.visitVarInsn(ASTORE, 4);
             mv.visitVarInsn(ALOAD, 0);
@@ -42,4 +43,9 @@ public class Human2MethodVisitor extends MethodVisitor {
         super.visitFieldInsn(opcode, owner, name, desc);
     }
 
+
+
+    private void log(String msg) {
+        System.out.println(msg);
+    }
 }
