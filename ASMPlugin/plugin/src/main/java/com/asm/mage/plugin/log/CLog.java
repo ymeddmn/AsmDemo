@@ -47,4 +47,9 @@ public class CLog {
         }
         System.out.println(content);
     }
+
+    public static void log(String title) {
+
+        System.out.println(title);
+    }
 }

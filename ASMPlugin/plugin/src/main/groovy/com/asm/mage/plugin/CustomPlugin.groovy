@@ -96,20 +96,20 @@ public class CustomPlugin extends Transform implements Plugin<Project> {
             //列出目录所有文件（包含子文件夹，子文件夹内文件）
             directoryInput.file.eachFileRecurse { File file ->
                 def name = file.name
-                if (GenerateClsUtils.needBeenChange(name)) {
-                    if (checkClassFile(name)) {
+//                if (GenerateClsUtils.needBeenChange(name)) {
+                if (checkClassFile(name)) {
 //                        println '----------- deal with "class" file <' + name + '> -----------'
-                        ClassReader classReader = new ClassReader(file.bytes)
-                        ClassWriter classWriter = new ClassWriter(classReader, ClassWriter.COMPUTE_MAXS)
-                        ClassVisitor cv = GenerateClsUtils.getClassVisitor(name, classWriter)
-                        classReader.accept(cv, EXPAND_FRAMES)
-                        byte[] code = classWriter.toByteArray()
-                        FileOutputStream fos = new FileOutputStream(
-                                file.parentFile.absolutePath + File.separator + name)
-                        fos.write(code)
-                        fos.close()
-                    }
+                    ClassReader classReader = new ClassReader(file.bytes)
+                    ClassWriter classWriter = new ClassWriter(classReader, ClassWriter.COMPUTE_MAXS)
+                    ClassVisitor cv = GenerateClsUtils.getClassVisitor(name, classWriter)
+                    classReader.accept(cv, EXPAND_FRAMES)
+                    byte[] code = classWriter.toByteArray()
+                    FileOutputStream fos = new FileOutputStream(
+                            file.parentFile.absolutePath + File.separator + name)
+                    fos.write(code)
+                    fos.close()
                 }
+//                }
             }
         }
         //处理完输入文件之后，要把输出给下一个任务
@@ -138,6 +138,7 @@ public class CustomPlugin extends Transform implements Plugin<Project> {
                 tmpFile.delete()
             }
             JarOutputStream jarOutputStream = new JarOutputStream(new FileOutputStream(tmpFile))
+//            println ("jar包名称："+jarName)
             //用于保存
             while (enumeration.hasMoreElements()) {
                 JarEntry jarEntry = (JarEntry) enumeration.nextElement()
@@ -152,12 +153,12 @@ public class CustomPlugin extends Transform implements Plugin<Project> {
                     jarOutputStream.putNextEntry(zipEntry)
                     ClassReader classReader = new ClassReader(IOUtils.toByteArray(inputStream))
                     ClassWriter classWriter = new ClassWriter(classReader, ClassWriter.COMPUTE_MAXS)
-                    ClassVisitor cv = GenerateClsUtils.getClassVisitor(entryName,classWriter)
+                    ClassVisitor cv = GenerateClsUtils.getClassVisitor(entryName, classWriter)
                     try {
                         classReader.accept(cv, EXPAND_FRAMES)
                         byte[] code = classWriter.toByteArray()
                         jarOutputStream.write(code)
-                    }catch(Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace()
                     }
                 } else {

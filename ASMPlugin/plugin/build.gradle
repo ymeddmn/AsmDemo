@@ -15,7 +15,7 @@ repositories {
 }
 
 group='com.mage.myplugin'
-version='1.0.1'
+version='1.0.2'
 def artifactName = 'myinject'
 uploadArchives {
     repositories {
